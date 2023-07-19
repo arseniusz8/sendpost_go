@@ -1,0 +1,575 @@
+openapi: 3.0.2
+info:
+  contact:
+    email: hello@sendpost.io
+  description: "Email API and SMTP relay to not just send and measure email sending,\
+    \ but also alert and optimise. We provide you with tools, expertise and support\
+    \ needed to reliably deliver emails to your customers inboxes on time, every time."
+  termsOfService: http://sendpost.io/terms-of-service
+  title: SendPost API
+  version: 1.0.0
+servers:
+- url: https://api.sendpost.io/api/v1/
+paths:
+  /subaccount/email/:
+    post:
+      description: Send Email To Contacts
+      operationId: send_email
+      parameters:
+      - description: Sub-Account API Key
+        explode: false
+        in: header
+        name: X-SubAccount-ApiKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailMessage'
+        description: Email message
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/EmailResponse'
+                type: array
+          description: '"Email Message Processed Successfully"'
+        "401":
+          description: Not Authorized
+        "422":
+          description: Request body is not in proper format
+        "500":
+          description: Internal Server Error
+      tags:
+      - email
+  /subaccount/email/template:
+    post:
+      description: Send Email To Contacts With Template
+      operationId: send_email_with_template
+      parameters:
+      - description: Sub-Account API Key
+        explode: false
+        in: header
+        name: X-SubAccount-ApiKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailMessage'
+        description: Email message
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/EmailResponse'
+                type: array
+          description: '"Email Message Processed Successfully"'
+        "401":
+          description: Not Authorized
+        "422":
+          description: Request body is not in proper format
+        "500":
+          description: Internal Server Error
+      tags:
+      - email
+components:
+  schemas:
+    EmailMessage:
+      example:
+        template: welcome-onboarding
+        ampBody: ampBody
+        trackOpens: true
+        headers:
+          X-Campaign-Id: techcrunch-launch
+        attachments:
+        - filename: file0.txt
+          content: V2VsY29tZSB0byBTZW5kUG9zdCEgOikK
+        - filename: file0.txt
+          content: V2VsY29tZSB0byBTZW5kUG9zdCEgOikK
+        subject: "Welcome to Nucles {{.Name}}:) Let's get started"
+        ippool: promotional-hooli
+        groups:
+        - promotion
+        - techcrunch-launch
+        preText: Follow the steps to integrate our video compression API
+        textBody: "Thanks for your trust in Hooli {{.Name}}. We are trying launching\
+          \ Nucleus at TechCrunch Disrupt - our cloud based compression platform.\
+          \ That you could easily integrate it into {{.Company}}"
+        htmlBody: "<html><body>Thanks for your trust in Hooli {{.Name}}. We are trying\
+          \ launching Nucleus at TechCrunch Disrupt - our cloud based compression\
+          \ platform. That you could easily integrate it into {{.Company}}.</html></body>"
+        replyTo:
+          name: Team @ Hooli
+          email: welcome@hooli.vom
+        from:
+          name: Gavin Belson
+          email: gavin@hooli.com
+        to:
+        - cc:
+          - customFields:
+              Company: Bachmanity
+            name: Nelson Bighetti
+            email: bighead@bachmanity.com
+          - customFields:
+              Company: Bachmanity
+            name: Nelson Bighetti
+            email: bighead@bachmanity.com
+          bcc:
+          - customFields:
+              Company: Bachmanity
+            name: Nelson Bighetti
+            email: bighead@bachmanity.com
+          - customFields:
+              Company: Bachmanity
+            name: Nelson Bighetti
+            email: bighead@bachmanity.com
+          customFields:
+            Company: Bachmanity
+          name: Elrich Bachman
+          email: elrich@bachmanity.com
+        - cc:
+          - customFields:
+              Company: Bachmanity
+            name: Nelson Bighetti
+            email: bighead@bachmanity.com
+          - customFields:
+              Company: Bachmanity
+            name: Nelson Bighetti
+            email: bighead@bachmanity.com
+          bcc:
+          - customFields:
+              Company: Bachmanity
+            name: Nelson Bighetti
+            email: bighead@bachmanity.com
+          - customFields:
+              Company: Bachmanity
+            name: Nelson Bighetti
+            email: bighead@bachmanity.com
+          customFields:
+            Company: Bachmanity
+          name: Elrich Bachman
+          email: elrich@bachmanity.com
+        trackClicks: true
+      properties:
+        attachments:
+          items:
+            $ref: '#/components/schemas/Attachment'
+          type: array
+        from:
+          $ref: '#/components/schemas/From'
+        groups:
+          example:
+          - promotion
+          - techcrunch-launch
+          items:
+            type: string
+          type: array
+        htmlBody:
+          example: "<html><body>Thanks for your trust in Hooli {{.Name}}. We are trying\
+            \ launching Nucleus at TechCrunch Disrupt - our cloud based compression\
+            \ platform. That you could easily integrate it into {{.Company}}.</html></body>"
+          type: string
+        ippool:
+          example: promotional-hooli
+          type: string
+        preText:
+          example: Follow the steps to integrate our video compression API
+          type: string
+        replyTo:
+          $ref: '#/components/schemas/ReplyTo'
+        subject:
+          example: "Welcome to Nucles {{.Name}}:) Let's get started"
+          type: string
+        template:
+          example: welcome-onboarding
+          type: string
+        textBody:
+          example: "Thanks for your trust in Hooli {{.Name}}. We are trying launching\
+            \ Nucleus at TechCrunch Disrupt - our cloud based compression platform.\
+            \ That you could easily integrate it into {{.Company}}"
+          type: string
+        to:
+          items:
+            $ref: '#/components/schemas/To'
+          type: array
+        trackClicks:
+          example: true
+          type: boolean
+        trackOpens:
+          example: true
+          type: boolean
+        headers:
+          example:
+            X-Campaign-Id: techcrunch-launch
+          type: object
+        ampBody:
+          type: string
+      title: EmailMessage
+      type: object
+    WebhookEvent:
+      properties:
+        event:
+          $ref: '#/components/schemas/QEvent'
+        emailMessage:
+          $ref: '#/components/schemas/QEmailMessage'
+      title: WebhookEvent
+      type: object
+    QEmailMessage:
+      properties:
+        accountID:
+          example: 117
+          format: int64
+          type: integer
+        ampBody:
+          type: string
+        attachments:
+          items:
+            $ref: '#/components/schemas/Attachment'
+          type: array
+        attempt:
+          example: 1
+          format: int64
+          type: integer
+        customFields:
+          example:
+            Company: Bachmanity
+          type: object
+        emailType:
+          example: gmail
+          type: string
+        from:
+          $ref: '#/components/schemas/From'
+        groups:
+          example:
+          - promotion
+          - techcrunch-launch
+          items:
+            type: string
+          type: array
+        headerBcc:
+          items:
+            $ref: '#/components/schemas/CopyTo'
+          type: array
+        headerCc:
+          items:
+            $ref: '#/components/schemas/CopyTo'
+          type: array
+        headerTo:
+          $ref: '#/components/schemas/To'
+        headers:
+          example:
+            X-Campaign-Id: techcrunch-launch
+          type: object
+        htmlBody:
+          example: "<html><body>{{.FirstName}}, I have been following your journey\
+            \ since {{.Company}} days. Just wanted to thank you for inspiring us.</body></html>"
+          type: string
+        ipID:
+          example: 18
+          format: int64
+          type: integer
+        ipPool:
+          example: transactional-piedpiper
+          type: string
+        localIP:
+          example: 172.30.2.45
+          type: string
+        messageID:
+          example: 0c6c7600-e68d-498e-b924-d8105130cc1d
+          type: string
+        preText:
+          example: thanks for the inspiration ...
+          type: string
+        publicIP:
+          example: 52.13.11.9
+          type: string
+        replyTo:
+          $ref: '#/components/schemas/ReplyTo'
+        subAccountID:
+          example: 234
+          format: int64
+          type: integer
+        subject:
+          example: Building great products?
+          type: string
+        submittedAt:
+          example: 1567512491587205024
+          format: int64
+          type: integer
+        textBody:
+          example: "{{.FirstName}}, I have been following your journey since {{.Company}}\
+            \ days. Just wanted to thank you for inspiring us."
+          type: string
+        to:
+          $ref: '#/components/schemas/To'
+        trackClicks:
+          example: true
+          type: boolean
+        trackOpens:
+          example: true
+          type: boolean
+      title: QEmailMessage
+      type: object
+    QEvent:
+      properties:
+        accountID:
+          example: 8
+          format: int64
+          type: integer
+        eventID:
+          example: 8690608c-2538-4173-a463-f0de475633da
+          type: string
+        eventMetadata:
+          $ref: '#/components/schemas/EventMetadata'
+        from:
+          example: gavin@hooli.com
+          type: string
+        groups:
+          example:
+          - promotion
+          - techcrunch-launch
+          items:
+            type: string
+          type: array
+        ipID:
+          example: 7
+          format: int64
+          type: integer
+        messageID:
+          example: edcb833d-5ef6-48c3-936f-1de0b74843d4
+          type: string
+        messageType:
+          example: default
+          type: string
+        subAccountID:
+          example: 28
+          format: int64
+          type: integer
+        submittedAt:
+          example: 1689245147247766056
+          format: int64
+          type: integer
+        to:
+          example: richard@piedpiper.com
+          type: string
+        tpspId:
+          example: 0
+          format: int64
+          type: integer
+        type:
+          example: 2
+          format: int64
+          type: integer
+      title: QEvent
+      type: object
+    Attachment:
+      example:
+        filename: file0.txt
+        content: V2VsY29tZSB0byBTZW5kUG9zdCEgOikK
+      properties:
+        content:
+          example: V2VsY29tZSB0byBTZW5kUG9zdCEgOikK
+          type: string
+        filename:
+          example: file0.txt
+          type: string
+      title: Attachment
+      type: object
+    To:
+      example:
+        cc:
+        - customFields:
+            Company: Bachmanity
+          name: Nelson Bighetti
+          email: bighead@bachmanity.com
+        - customFields:
+            Company: Bachmanity
+          name: Nelson Bighetti
+          email: bighead@bachmanity.com
+        bcc:
+        - customFields:
+            Company: Bachmanity
+          name: Nelson Bighetti
+          email: bighead@bachmanity.com
+        - customFields:
+            Company: Bachmanity
+          name: Nelson Bighetti
+          email: bighead@bachmanity.com
+        customFields:
+          Company: Bachmanity
+        name: Elrich Bachman
+        email: elrich@bachmanity.com
+      properties:
+        name:
+          example: Elrich Bachman
+          type: string
+        email:
+          example: elrich@bachmanity.com
+          type: string
+        cc:
+          items:
+            $ref: '#/components/schemas/CopyTo'
+          type: array
+        bcc:
+          items:
+            $ref: '#/components/schemas/CopyTo'
+          type: array
+        customFields:
+          example:
+            Company: Bachmanity
+          type: object
+      title: To
+      type: object
+    From:
+      example:
+        name: Gavin Belson
+        email: gavin@hooli.com
+      properties:
+        email:
+          example: gavin@hooli.com
+          type: string
+        name:
+          example: Gavin Belson
+          type: string
+      title: From
+      type: object
+    ReplyTo:
+      example:
+        name: Team @ Hooli
+        email: welcome@hooli.vom
+      properties:
+        email:
+          example: welcome@hooli.vom
+          type: string
+        name:
+          example: Team @ Hooli
+          type: string
+      title: ReplyTo
+      type: object
+    CopyTo:
+      example:
+        customFields:
+          Company: Bachmanity
+        name: Nelson Bighetti
+        email: bighead@bachmanity.com
+      properties:
+        name:
+          example: Nelson Bighetti
+          type: string
+        email:
+          example: bighead@bachmanity.com
+          type: string
+        customFields:
+          example:
+            Company: Bachmanity
+          type: object
+      title: CopyTo
+      type: object
+    EventMetadata:
+      properties:
+        clickedURL:
+          type: string
+        device:
+          $ref: '#/components/schemas/Device'
+        geo:
+          $ref: '#/components/schemas/City'
+        os:
+          $ref: '#/components/schemas/Os'
+        smtpCode:
+          example: 200
+          format: int64
+          type: integer
+        smtpDescription:
+          example: email delivered successfully
+          type: string
+        userAgent:
+          $ref: '#/components/schemas/UserAgent'
+      title: EventMetadata
+      type: object
+    EmailResponse:
+      example:
+        errorCode: 0
+        messageId: 0e139af1-f1xe-480d-b08d-eg28m48kf48d
+        to: bighead@bachmanity.com
+        message: ok
+        submittedAt: 1567512491587205124
+      properties:
+        errorCode:
+          example: 0
+          type: object
+        message:
+          example: ok
+          type: string
+        messageId:
+          example: 0e139af1-f1xe-480d-b08d-eg28m48kf48d
+          type: string
+        submittedAt:
+          example: 1567512491587205124
+          format: int64
+          type: integer
+        to:
+          example: bighead@bachmanity.com
+          type: string
+      title: EmailResponse
+      type: object
+    EmailErrorCode:
+      example: 0
+      type: object
+    Device:
+      properties:
+        Family:
+          type: string
+      title: Device
+      type: object
+    Os:
+      properties:
+        Family:
+          type: string
+        Major:
+          type: string
+        Minor:
+          type: string
+        Patch:
+          type: string
+        PatchMinor:
+          type: string
+      title: Os
+      type: object
+    UserAgent:
+      properties:
+        Family:
+          type: string
+        Major:
+          type: string
+        Minor:
+          type: string
+        Patch:
+          type: string
+      title: UserAgent
+      type: object
+    City:
+      properties:
+        cityID:
+          format: int32
+          type: integer
+        continentCode:
+          type: string
+        countryCode:
+          type: string
+        postalCode:
+          type: string
+        timeZone:
+          type: string
+      title: City
+      type: object
