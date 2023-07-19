@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ErrorCode** | Pointer to **map[string]interface{}** |  | [optional] 
+**ErrorCode** | Pointer to **int32** |  | [optional] 
 **Message** | Pointer to **string** |  | [optional] 
 **MessageId** | Pointer to **string** |  | [optional] 
 **SubmittedAt** | Pointer to **int64** |  | [optional] 
@@ -31,20 +31,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetErrorCode
 
-`func (o *EmailResponse) GetErrorCode() map[string]interface{}`
+`func (o *EmailResponse) GetErrorCode() int32`
 
 GetErrorCode returns the ErrorCode field if non-nil, zero value otherwise.
 
 ### GetErrorCodeOk
 
-`func (o *EmailResponse) GetErrorCodeOk() (*map[string]interface{}, bool)`
+`func (o *EmailResponse) GetErrorCodeOk() (*int32, bool)`
 
 GetErrorCodeOk returns a tuple with the ErrorCode field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetErrorCode
 
-`func (o *EmailResponse) SetErrorCode(v map[string]interface{})`
+`func (o *EmailResponse) SetErrorCode(v int32)`
 
 SetErrorCode sets ErrorCode field to given value.
 

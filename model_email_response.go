@@ -20,7 +20,7 @@ var _ MappedNullable = &EmailResponse{}
 
 // EmailResponse struct for EmailResponse
 type EmailResponse struct {
-	ErrorCode map[string]interface{} `json:"errorCode,omitempty"`
+	ErrorCode *int32 `json:"errorCode,omitempty"`
 	Message *string `json:"message,omitempty"`
 	MessageId *string `json:"messageId,omitempty"`
 	SubmittedAt *int64 `json:"submittedAt,omitempty"`
@@ -45,19 +45,19 @@ func NewEmailResponseWithDefaults() *EmailResponse {
 }
 
 // GetErrorCode returns the ErrorCode field value if set, zero value otherwise.
-func (o *EmailResponse) GetErrorCode() map[string]interface{} {
+func (o *EmailResponse) GetErrorCode() int32 {
 	if o == nil || IsNil(o.ErrorCode) {
-		var ret map[string]interface{}
+		var ret int32
 		return ret
 	}
-	return o.ErrorCode
+	return *o.ErrorCode
 }
 
 // GetErrorCodeOk returns a tuple with the ErrorCode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EmailResponse) GetErrorCodeOk() (map[string]interface{}, bool) {
+func (o *EmailResponse) GetErrorCodeOk() (*int32, bool) {
 	if o == nil || IsNil(o.ErrorCode) {
-		return map[string]interface{}{}, false
+		return nil, false
 	}
 	return o.ErrorCode, true
 }
@@ -71,9 +71,9 @@ func (o *EmailResponse) HasErrorCode() bool {
 	return false
 }
 
-// SetErrorCode gets a reference to the given map[string]interface{} and assigns it to the ErrorCode field.
-func (o *EmailResponse) SetErrorCode(v map[string]interface{}) {
-	o.ErrorCode = v
+// SetErrorCode gets a reference to the given int32 and assigns it to the ErrorCode field.
+func (o *EmailResponse) SetErrorCode(v int32) {
+	o.ErrorCode = &v
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.

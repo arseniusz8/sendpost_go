@@ -499,15 +499,15 @@ components:
       type: object
     EmailResponse:
       example:
-        errorCode: 0
+        errorCode: 500
         messageId: 0e139af1-f1xe-480d-b08d-eg28m48kf48d
         to: bighead@bachmanity.com
         message: ok
         submittedAt: 1567512491587205124
       properties:
         errorCode:
-          example: 0
-          type: object
+          example: 500
+          type: integer
         message:
           example: ok
           type: string
@@ -522,9 +522,6 @@ components:
           example: bighead@bachmanity.com
           type: string
       title: EmailResponse
-      type: object
-    EmailErrorCode:
-      example: 0
       type: object
     Device:
       properties:
